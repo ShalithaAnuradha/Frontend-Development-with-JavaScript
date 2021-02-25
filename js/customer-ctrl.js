@@ -24,6 +24,12 @@
  *===============================================================================*/
 
 // Todo: add all global variable declaration here
+var customerIdElement = document.getElementById("txt-id");
+var customerNameElement = document.getElementById("txt-name");
+var customerAddressElement = document.getElementById("txt-address");
+var save = document.getElementById("btn-save");
+var clear = document.getElementById("btn-clear");
+
 
 /*===============================================================================
  * Init
@@ -31,8 +37,12 @@
 
 init();
 
-function init(){
+function init() {
     // Todo: add the initialization code if any
+    // showCustomerDetailsInConsole();
+    focusedToCustomerId();
+    saveCustomer();
+
 }
 
 /*===============================================================================
@@ -46,3 +56,4 @@ function init(){
  *===============================================================================*/
 
 // Todo: add all functions
+
