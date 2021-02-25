@@ -60,3 +60,26 @@ function init() {
 function focusedToCustomerId() {
     document.getElementById("txt-id").focus();
 }
+function showCustomerDetailsInConsole() {
+    customerAddressElement.addEventListener("mouseout", function () {
+        console.log(customerIdElement.value);
+        console.log(customerNameElement.value);
+        console.log(customerAddressElement.value);
+    });
+}
+
+function saveCustomer() {
+    save.addEventListener("click",function () {
+        let customerTable = document.getElementById("tbl-customers");
+        let newRowElement = customerTable.insertRow(-1);
+        let customerIdCell = newRowElement.insertCell(0);
+        let customerNameCell = newRowElement.insertCell(1);
+        let customerAddressCell = newRowElement.insertCell(2);
+        let customerIdTextNode = document.createTextNode(customerIdElement.value);
+        let customerNameTextNode = document.createTextNode(customerNameElement.value);
+        let customerAddressTextNode = document.createTextNode(customerAddressElement.value);
+        customerIdCell.appendChild(customerIdTextNode);
+        customerNameCell.appendChild(customerNameTextNode);
+        customerAddressCell.appendChild(customerAddressTextNode);
+    });
+}
