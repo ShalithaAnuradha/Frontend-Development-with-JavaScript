@@ -129,7 +129,7 @@ function validateAllFields() {
     }else {
         helperIdElement.style.display="block";
         customerIdElement.style.borderColor="red";
-        customerIdElement.focus();
+        customerIdElement.focus(); 
     }
 
     console.log(validateCustomerId);
