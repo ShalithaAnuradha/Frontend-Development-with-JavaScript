@@ -57,3 +57,6 @@ function init() {
 
 // Todo: add all functions
 
+function focusedToCustomerId() {
+    document.getElementById("txt-id").focus();
+}
