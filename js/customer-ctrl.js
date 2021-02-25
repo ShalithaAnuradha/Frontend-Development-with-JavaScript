@@ -104,25 +104,31 @@ function validateAllFields() {
     // implicitly converterd to a RegExp by using new RegExp(regexp))
     if(customerAddressElement.value.match(validateCustomerAddressRegExp)){
         validateCustomerAddress=true;
+        customerAddressElement.style.borderColor="";
         helperAddressElement.style.display="none";
     }else{
         helperAddressElement.style.display="block";
+        customerAddressElement.style.borderColor="red";
         customerAddressElement.focus();
     }
 
     if(customerNameElement.value.match(validateCustomerNameRegExp)){
         validateCustomerName=true;
+        customerNameElement.style.borderColor="";
         helperNameElement.style.display="none";
     }else{
         helperNameElement.style.display="block";
+        customerNameElement.style.borderColor="red";
         customerNameElement.focus();
     }
 
     if(customerIdElement.value.match(validateCustomerIdRegExp)){
         validateCustomerId=true;
         helperIdElement.style.display="none";
+        customerIdElement.style.borderColor="";
     }else {
         helperIdElement.style.display="block";
+        customerIdElement.style.borderColor="red";
         customerIdElement.focus();
     }
 
