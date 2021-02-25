@@ -24,17 +24,24 @@
                 <div class="form-group">
                     <label for="txt-id">Customer ID</label>
                     <input class="form-control" id="txt-id" placeholder="Eg. C001" type="text">
-                    <small class="form-text text-muted">
+                    <small class="form-text text-muted" id="txt-helper-id">
                         The Customer ID should follow the pattern CXXX; X={0-9}
                     </small>
                 </div>
                 <div class="form-group">
                     <label for="txt-name">Customer Name</label>
                     <input class="form-control" id="txt-name" placeholder="Eg. Lucky Prabath" type="text">
+                    <small class="form-text text-muted" id="txt-helper-name">
+                        Customer Name can only contain A-Z,a-z, spaces and periods and
+                        at least should have three letters excluding white spaces
+                    </small>
                 </div>
                 <div class="form-group">
                     <label for="txt-address">Customer Address</label>
                     <input class="form-control" id="txt-address" placeholder="Eg. #1234, Main St, Gampaha" type="text">
+                    <small class="form-text text-muted" id="txt-helper-address">
+                        The Customer Address can’t be empty and at least should have three letters (do not count white spaces)
+                    </small>
                 </div>
                 <hr>
                 <div class="form-group">

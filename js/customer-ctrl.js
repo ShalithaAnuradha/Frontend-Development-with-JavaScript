@@ -27,8 +27,13 @@
 var customerIdElement = document.getElementById("txt-id");
 var customerNameElement = document.getElementById("txt-name");
 var customerAddressElement = document.getElementById("txt-address");
+var helperIdElement = document.getElementById("txt-helper-id");
+var helperNameElement = document.getElementById("txt-helper-name");
+var helperAddressElement = document.getElementById("txt-helper-address");
+
 var save = document.getElementById("btn-save");
 var clear = document.getElementById("btn-clear");
+
 
 
 /*===============================================================================
@@ -58,7 +63,7 @@ function init() {
 // Todo: add all functions
 
 function focusedToCustomerId() {
-    document.getElementById("txt-id").focus();
+    customerIdElement.focus();
 }
 function showCustomerDetailsInConsole() {
     customerAddressElement.addEventListener("mouseout", function () {
@@ -99,20 +104,39 @@ function validateAllFields() {
     // implicitly converterd to a RegExp by using new RegExp(regexp))
     if(customerAddressElement.value.match(validateCustomerAddressRegExp)){
         validateCustomerAddress=true;
+        helperAddressElement.style.display="none";
+    }else{
+        helperAddressElement.style.display="block";
+        customerAddressElement.focus();
     }
 
     if(customerNameElement.value.match(validateCustomerNameRegExp)){
         validateCustomerName=true;
+        helperNameElement.style.display="none";
+    }else{
+        helperNameElement.style.display="block";
+        customerNameElement.focus();
     }
 
     if(customerIdElement.value.match(validateCustomerIdRegExp)){
         validateCustomerId=true;
+        helperIdElement.style.display="none";
+    }else {
+        helperIdElement.style.display="block";
+        customerIdElement.focus();
     }
 
-    // console.log(validateCustomerId);
+    console.log(validateCustomerId);
     // console.log(validateCustomerName);
     // console.log(validateCustomerAddress);
 
-    
+
+
+    if(validateCustomerId && validateCustomerName && validateCustomerAddress){
+        return true;
+    }else{
+        return false;
+    }
+
 
 }
