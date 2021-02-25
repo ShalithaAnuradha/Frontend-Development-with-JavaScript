@@ -69,7 +69,9 @@ function showCustomerDetailsInConsole() {
 }
 
 function saveCustomer() {
+
     save.addEventListener("click",function () {
+        if(!validateAllFields()){return;}
         let customerTable = document.getElementById("tbl-customers");
         let newRowElement = customerTable.insertRow(-1);
         let customerIdCell = newRowElement.insertCell(0);
@@ -82,4 +84,35 @@ function saveCustomer() {
         customerNameCell.appendChild(customerNameTextNode);
         customerAddressCell.appendChild(customerAddressTextNode);
     });
+}
+
+function validateAllFields() {
+    var validateCustomerId=false;
+    var validateCustomerName=false;
+    var validateCustomerAddress=false;
+
+    var validateCustomerIdRegExp=/^C\d{3}$/g;
+    var validateCustomerNameRegExp=/^[A-Za-z .]{3,}$/g && /^[A-Za-z]{3,}$/g;
+    var validateCustomerAddressRegExp=/[A-Za-z]{3,}/g;
+
+    //Here we use g (global flag in RegEx to if giving RegExp isn't RegExp then, it
+    // implicitly converterd to a RegExp by using new RegExp(regexp))
+    if(customerAddressElement.value.match(validateCustomerAddressRegExp)){
+        validateCustomerAddress=true;
+    }
+
+    if(customerNameElement.value.match(validateCustomerNameRegExp)){
+        validateCustomerName=true;
+    }
+
+    if(customerIdElement.value.match(validateCustomerIdRegExp)){
+        validateCustomerId=true;
+    }
+
+    // console.log(validateCustomerId);
+    // console.log(validateCustomerName);
+    // console.log(validateCustomerAddress);
+
+    
+
 }
