@@ -24,14 +24,16 @@
  *===============================================================================*/
 
 // Todo: add all global variable declaration here
-var customerIdElement = document.getElementById("txt-id");
-var customerNameElement = document.getElementById("txt-name");
-var customerAddressElement = document.getElementById("txt-address");
-var helperIdElement = document.getElementById("txt-helper-id");
-var helperNameElement = document.getElementById("txt-helper-name");
-var helperAddressElement = document.getElementById("txt-helper-address");
+var customerIdElement;
+var customerNameElement;
+var customerAddressElement;
+var helperIdElement;
+var helperNameElement;
+var helperAddressElement;
+var selectedCustomer=null;
+var customers=[];
 
-let customerTable = document.getElementById("tbl-customers");
+var tblCustomers;
 var paginationElement = document.getElementById("pagination-item");
 
 
@@ -51,7 +53,14 @@ init();
 
 function init() {
     // Todo: add the initialization code if any
-    // showCustomerDetailsInConsole();
+    customerIdElement = document.getElementById("txt-id");
+    customerNameElement = document.getElementById("txt-name");
+    customerAddressElement = document.getElementById("txt-address");
+    helperIdElement = document.getElementById("txt-helper-id");
+    helperNameElement = document.getElementById("txt-helper-name");
+    helperAddressElement = document.getElementById("txt-helper-address");
+    tblCustomers = document.getElementById("tbl-customers");
+
     focusedToCustomerId();
     saveCustomer();
     // clearCustomer();
@@ -62,7 +71,9 @@ function init() {
  * Event Handlers and Timers
  *===============================================================================*/
 
-// Todo: add all event listeners and handlers here
+customerIdElement.addEventListener("input",handleInput);
+customerNameElement.addEventListener("input",handleInput);
+customerAddressElement.addEventListener("input",handleInput);
 
 /*===============================================================================
  * Functions
@@ -83,38 +94,55 @@ function showCustomerDetailsInConsole() {
 
 function saveCustomer() {
 
+    if(!selectedCustomer){
+        customers.push({
+           id:customerIdElement.value,
+           name: customerNameElement.value,
+           address: customerAddressElement.value
+        });
+    }else {
+        //TODO: update the seleted customer
+    }
+
     save.addEventListener("click",function () {
         if(!validateAllFields()){return;}
         noRecordElement.style.display="none";
 
         // if(existingCustomer){return;}
 
-        let newRowElement = customerTable.insertRow(-1);
-        let customerIdCell = newRowElement.insertCell(0);
-        let customerNameCell = newRowElement.insertCell(1);
-        let customerAddressCell = newRowElement.insertCell(2);
-        let customerTrashCell = newRowElement.insertCell(3);
-        let customerIdTextNode = document.createTextNode(customerIdElement.value);
-        let customerNameTextNode = document.createTextNode(customerNameElement.value);
-        let customerAddressTextNode = document.createTextNode(customerAddressElement.value);
-        let trashElement = document.createElement("img");
-        trashElement.className="trash-icon";
-        trashElement.src="trash.png"
+        var newRowElement = tblCustomers.tBodies.item(0).insertRow(-1);
+        var customerIdCell = newRowElement.insertCell(0);
+        customerIdCell.innerText=customerIdElement.value;
 
-        customerIdCell.appendChild(customerIdTextNode);
+        var customerNameCell = newRowElement.insertCell(1);
+        customerNameCell.innerText=customerNameElement.value;
+
+        var customerAddressCell = newRowElement.insertCell(2);
+        customerAddressCell.innerText=customerAddressElement.value;
+
+        var customerTrashCell = newRowElement.insertCell(3);
+        customerTrashCell.innerHTML="<div class='trash-icon'></div>"
+
+        showOrHideTFoot();
+        // var trashElement = document.createElement("img");
+        // trashElement.className="trash-icon";
+        // trashElement.src="trash.png"
+
+
         customerIdCell.style.textAlign="center";
-        customerNameCell.appendChild(customerNameTextNode);
-        customerAddressCell.appendChild(customerAddressTextNode);
         customerAddressCell.style.textAlign="center";
-        customerTrashCell.appendChild(trashElement);
+        // customerTrashCell.appendChild(trashElement);
 
 
 
-        // if(customerTable.)
+
     });
 }
 
+
+
 function validateAllFields() {
+
     var validateCustomerId=false;
     var validateCustomerName=false;
     var validateCustomerAddress=false;
@@ -131,7 +159,8 @@ function validateAllFields() {
         helperAddressElement.style.display="none";
     }else{
         helperAddressElement.style.display="block";
-        customerAddressElement.style.borderColor="red";
+        // customerAddressElement.style.borderColor="red";
+        customerAddressElement.classList.add('is-invalid');
         customerAddressElement.select();
     }
 
@@ -141,7 +170,7 @@ function validateAllFields() {
         helperNameElement.style.display="none";
     }else{
         helperNameElement.style.display="block";
-        customerNameElement.style.borderColor="red";
+        customerNameElement.classList.add('is-invalid');
         customerNameElement.select();
     }
 
@@ -151,7 +180,7 @@ function validateAllFields() {
         customerIdElement.style.borderColor="";
     }else {
         helperIdElement.style.display="block";
-        customerIdElement.style.borderColor="red";
+        customerIdElement.classList.add('is-invalid');
         customerIdElement.select();
     }
 
@@ -168,8 +197,14 @@ function validateAllFields() {
 
 }
 
-function deleteRow() {
-    if(customerTable.rows.length>0){
-
+function showOrHideTFoot() {
+    if(tblCustomers.tBodies.item(0).rows.length>0){
+          document.querySelector("#tbl-customers tfoot").classList.add("d-none");
+    }else{
+        document.querySelector("#tbl-customers tfoot").classList.remove( "d-none");
     }
+}
+
+function handleInput() {
+    this.classList.remove("is-invalid");
 }
