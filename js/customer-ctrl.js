@@ -31,6 +31,13 @@ var helperIdElement = document.getElementById("txt-helper-id");
 var helperNameElement = document.getElementById("txt-helper-name");
 var helperAddressElement = document.getElementById("txt-helper-address");
 
+let customerTable = document.getElementById("tbl-customers");
+var paginationElement = document.getElementById("pagination-item");
+
+
+document.getElementById("")
+
+var noRecordElement = document.getElementById("no-record-text");
 var save = document.getElementById("btn-save");
 var clear = document.getElementById("btn-clear");
 
@@ -47,6 +54,7 @@ function init() {
     // showCustomerDetailsInConsole();
     focusedToCustomerId();
     saveCustomer();
+    // clearCustomer();
 
 }
 
@@ -77,17 +85,32 @@ function saveCustomer() {
 
     save.addEventListener("click",function () {
         if(!validateAllFields()){return;}
-        let customerTable = document.getElementById("tbl-customers");
+        noRecordElement.style.display="none";
+
+        // if(existingCustomer){return;}
+
         let newRowElement = customerTable.insertRow(-1);
         let customerIdCell = newRowElement.insertCell(0);
         let customerNameCell = newRowElement.insertCell(1);
         let customerAddressCell = newRowElement.insertCell(2);
+        let customerTrashCell = newRowElement.insertCell(3);
         let customerIdTextNode = document.createTextNode(customerIdElement.value);
         let customerNameTextNode = document.createTextNode(customerNameElement.value);
         let customerAddressTextNode = document.createTextNode(customerAddressElement.value);
+        let trashElement = document.createElement("img");
+        trashElement.className="trash-icon";
+        trashElement.src="trash.png"
+        // let customerTrashTextNode = document.createTextNode(trashElement.value);
         customerIdCell.appendChild(customerIdTextNode);
+        customerIdCell.style.textAlign="center";
         customerNameCell.appendChild(customerNameTextNode);
         customerAddressCell.appendChild(customerAddressTextNode);
+        customerAddressCell.style.textAlign="center";
+        customerTrashCell.appendChild(trashElement);
+
+
+
+        // if(customerTable.)
     });
 }
 
@@ -129,14 +152,12 @@ function validateAllFields() {
     }else {
         helperIdElement.style.display="block";
         customerIdElement.style.borderColor="red";
-        customerIdElement.focus(); 
+        customerIdElement.focus();
     }
 
-    console.log(validateCustomerId);
+    // console.log(validateCustomerId);
     // console.log(validateCustomerName);
     // console.log(validateCustomerAddress);
-
-
 
     if(validateCustomerId && validateCustomerName && validateCustomerAddress){
         return true;
@@ -145,4 +166,10 @@ function validateAllFields() {
     }
 
 
+}
+
+function deleteRow() {
+    if(customerTable.rows.length>0){
+
+    }
 }

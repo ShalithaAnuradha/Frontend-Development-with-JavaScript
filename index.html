@@ -45,7 +45,7 @@
                 </div>
                 <hr>
                 <div class="form-group">
-                    <button class="btn btn-primary" id="btn-save">Save</button>
+                    <button class="btn btn-primary" id="btn-save" type="button">Save</button>
                     <button class="btn btn-danger" id="btn-clear" type="reset">Clear</button>
                 </div>
             </form>
@@ -64,13 +64,13 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                    <td class="text-center" colspan="4">
-                        📌 <small>There are no records to show. Add a new customer.</small>
+                    <td class="text-center" colspan="4" id="no-record-text">
+                        📌 <small >There are no records to show. Add a new customer.</small>
                     </td>
                 </tr>
                 </tfoot>
             </table>
-            <nav>
+            <nav id="pagination-item">
                 <ul class="pagination">
                     <li class="page-item">
                         <a class="page-link" href="#">
