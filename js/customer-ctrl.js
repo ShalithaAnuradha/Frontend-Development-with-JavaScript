@@ -100,7 +100,7 @@ function saveCustomer() {
         let trashElement = document.createElement("img");
         trashElement.className="trash-icon";
         trashElement.src="trash.png"
-        // let customerTrashTextNode = document.createTextNode(trashElement.value);
+
         customerIdCell.appendChild(customerIdTextNode);
         customerIdCell.style.textAlign="center";
         customerNameCell.appendChild(customerNameTextNode);
@@ -132,7 +132,7 @@ function validateAllFields() {
     }else{
         helperAddressElement.style.display="block";
         customerAddressElement.style.borderColor="red";
-        customerAddressElement.focus();
+        customerAddressElement.select();
     }
 
     if(customerNameElement.value.match(validateCustomerNameRegExp)){
@@ -142,7 +142,7 @@ function validateAllFields() {
     }else{
         helperNameElement.style.display="block";
         customerNameElement.style.borderColor="red";
-        customerNameElement.focus();
+        customerNameElement.select();
     }
 
     if(customerIdElement.value.match(validateCustomerIdRegExp)){
@@ -152,7 +152,7 @@ function validateAllFields() {
     }else {
         helperIdElement.style.display="block";
         customerIdElement.style.borderColor="red";
-        customerIdElement.focus();
+        customerIdElement.select();
     }
 
     // console.log(validateCustomerId);
