@@ -63,7 +63,18 @@ main {
     background-color: rgb(251, 181, 52);
   }
 
+  #tbl-wrapper{
+    width: 100%;
+    height: auto;
+    max-height: 700px;
+    overflow-y: scroll;
+  }
+
   #tbl-customers {
+
+    //Get the scroll bars
+    //max-height: 752px;
+    //overflow: hidden;
 
     thead tr {
       background-color: lightgrey;
@@ -73,16 +84,22 @@ main {
       }
     }
 
+    tbody tr{
+      cursor: pointer;
+    }
+
     td {
       vertical-align: middle;
     }
 
-    th:first-child {
+    th:first-child,
+    td:first-child{
       width: 75px;
       text-align: center;
     }
 
-    th:last-child {
+    th:last-child,
+    td:last-child{
       position: relative;
       width: 75px;
       text-align: center;
@@ -96,9 +113,16 @@ main {
 }
 
 .trash-icon{
+  display: inline-block;//to center, because inline are in center
   width: 32px;
   height: 32px;
-  background-color: red;
+  background-image: url("../img/trash.png");
+  background-size: contain;
+
+  &:hover{
+    background-image: url("../img/trash-hover.png");
+
+  }
 }
 /*===============================================================================
  * Footer
@@ -113,3 +137,8 @@ footer {
   padding: 10px;
   border-top: 1px solid lightgrey;
 }
+
+.selected{
+  background-color: #5abfb5 !important;
+}
+

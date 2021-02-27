@@ -24,14 +24,15 @@
  *===============================================================================*/
 
 // Todo: add all global variable declaration here
-var customerIdElement;
-var customerNameElement;
-var customerAddressElement;
+var txtId;
+var txtName;
+var txtAddress;
 var helperIdElement;
 var helperNameElement;
 var helperAddressElement;
-var selectedCustomer=null;
-var customers=[];
+var selectedCustomer = null;
+var customers = [];
+var selectedRow=null;
 
 var tblCustomers;
 var paginationElement = document.getElementById("pagination-item");
@@ -44,7 +45,6 @@ var save = document.getElementById("btn-save");
 var clear = document.getElementById("btn-clear");
 
 
-
 /*===============================================================================
  * Init
  *===============================================================================*/
@@ -53,9 +53,9 @@ init();
 
 function init() {
     // Todo: add the initialization code if any
-    customerIdElement = document.getElementById("txt-id");
-    customerNameElement = document.getElementById("txt-name");
-    customerAddressElement = document.getElementById("txt-address");
+    txtId = document.getElementById("txt-id");
+    txtName = document.getElementById("txt-name");
+    txtAddress = document.getElementById("txt-address");
     helperIdElement = document.getElementById("txt-helper-id");
     helperNameElement = document.getElementById("txt-helper-name");
     helperAddressElement = document.getElementById("txt-helper-address");
@@ -71,9 +71,10 @@ function init() {
  * Event Handlers and Timers
  *===============================================================================*/
 
-customerIdElement.addEventListener("input",handleInput);
-customerNameElement.addEventListener("input",handleInput);
-customerAddressElement.addEventListener("input",handleInput);
+save.addEventListener("click", saveCustomer);
+txtId.addEventListener("input", handleInput);
+txtName.addEventListener("input", handleInput);
+txtAddress.addEventListener("input", handleInput);
 
 /*===============================================================================
  * Functions
@@ -82,115 +83,142 @@ customerAddressElement.addEventListener("input",handleInput);
 // Todo: add all functions
 
 function focusedToCustomerId() {
-    customerIdElement.focus();
+    txtId.focus();
 }
+
 function showCustomerDetailsInConsole() {
-    customerAddressElement.addEventListener("mouseout", function () {
-        console.log(customerIdElement.value);
-        console.log(customerNameElement.value);
-        console.log(customerAddressElement.value);
+    txtAddress.addEventListener("mouseout", function () {
+        console.log(txtId.value);
+        console.log(txtName.value);
+        console.log(txtAddress.value);
     });
 }
 
 function saveCustomer() {
 
-    if(!selectedCustomer){
-        customers.push({
-           id:customerIdElement.value,
-           name: customerNameElement.value,
-           address: customerAddressElement.value
-        });
-    }else {
-        //TODO: update the seleted customer
+    if (!validateAllFields()) {
+        return;
     }
 
-    save.addEventListener("click",function () {
-        if(!validateAllFields()){return;}
-        noRecordElement.style.display="none";
+    for (let i = 0; i < customers.length; i++) {
+        if (customers[i].id === txtId) {
+            customers[i].name=txtName.value;
+            customers[i].address=txtAddress.value;
+            selectedCustomer=customers[i];
+        }
+    }
 
-        // if(existingCustomer){return;}
+    if (!selectedCustomer) {
+        customers.push({
+            id: txtId.value,
+            name: txtName.value,
+            address: txtAddress.value
+        });
 
         var newRowElement = tblCustomers.tBodies.item(0).insertRow(-1);
+        newRowElement.onclick = handleSelection;
         var customerIdCell = newRowElement.insertCell(0);
-        customerIdCell.innerText=customerIdElement.value;
+        customerIdCell.innerText = txtId.value;
 
         var customerNameCell = newRowElement.insertCell(1);
-        customerNameCell.innerText=customerNameElement.value;
+        customerNameCell.innerText = txtName.value;
 
         var customerAddressCell = newRowElement.insertCell(2);
-        customerAddressCell.innerText=customerAddressElement.value;
+        customerAddressCell.innerText = txtAddress.value;
 
         var customerTrashCell = newRowElement.insertCell(3);
-        customerTrashCell.innerHTML="<div class='trash-icon'></div>"
+        customerTrashCell.innerHTML = "<div class='trash-icon' onclick='handleDelete(event)'></div>"
 
         showOrHideTFoot();
-        // var trashElement = document.createElement("img");
-        // trashElement.className="trash-icon";
-        // trashElement.src="trash.png"
+
+        txtId.value = "";
+        txtName.value = "";
+        txtAddress.value = "";
+        txtId.focus();
+
+    } else {
+
+        selectedCustomer.name=txtName.value;
+        selectedCustomer.address=txtAddress.value;
+
+        selectedRow.cells[1].innerText=txtName.value;
+        selectedRow.cells[2].innerText=txtAddress.value;
+
+        txtId.value = "";
+        txtName.value = "";
+        txtAddress.value = "";
+        txtId.focus();
+    }
 
 
-        customerIdCell.style.textAlign="center";
-        customerAddressCell.style.textAlign="center";
-        // customerTrashCell.appendChild(trashElement);
 
-
-
-
-    });
 }
 
+function handleDelete(event) {
 
+    if(confirm("Are you sure whether you want to delete this customer?")){
+        // console.log(id, event);
+        tblCustomers.deleteRow(event.target.parentElement.parentElement.rowIndex);
+        showOrHideTFoot();
+
+        customers.splice(customers.findIndex(function(c){
+            return c.id === event.target.parentElement.parentElement.cells[0].innerText;
+        })q ,1);
+        console.log(customers);
+        event.stopPropagation();
+    }
+}
 
 function validateAllFields() {
 
-    var validateCustomerId=false;
-    var validateCustomerName=false;
-    var validateCustomerAddress=false;
+    var validateCustomerId = false;
+    var validateCustomerName = false;
+    var validateCustomerAddress = false;
 
-    var validateCustomerIdRegExp=/^C\d{3}$/g;
-    var validateCustomerNameRegExp=/^[A-Za-z .]{3,}$/g && /^[A-Za-z]{3,}$/g;
-    var validateCustomerAddressRegExp=/[A-Za-z]{3,}/g;
+    var validateCustomerIdRegExp = /^C\d{3}$/g;
+    var validateCustomerNameRegExp = /^[A-Za-z .]{3,}$/g && /^[A-Za-z]{3,}$/g;
+    var validateCustomerAddressRegExp = /[A-Za-z]{3,}/g;
 
     //Here we use g (global flag in RegEx to if giving RegExp isn't RegExp then, it
     // implicitly converterd to a RegExp by using new RegExp(regexp))
-    if(customerAddressElement.value.match(validateCustomerAddressRegExp)){
-        validateCustomerAddress=true;
-        customerAddressElement.style.borderColor="";
-        helperAddressElement.style.display="none";
-    }else{
-        helperAddressElement.style.display="block";
-        // customerAddressElement.style.borderColor="red";
-        customerAddressElement.classList.add('is-invalid');
-        customerAddressElement.select();
+    if (txtAddress.value.match(validateCustomerAddressRegExp)) {
+        validateCustomerAddress = true;
+        txtAddress.style.borderColor = "";
+        helperAddressElement.style.display = "none";
+    } else {
+        helperAddressElement.style.display = "block";
+        // txtAddress.style.borderColor="red";
+        txtAddress.classList.add('is-invalid');
+        txtAddress.select();
     }
 
-    if(customerNameElement.value.match(validateCustomerNameRegExp)){
-        validateCustomerName=true;
-        customerNameElement.style.borderColor="";
-        helperNameElement.style.display="none";
-    }else{
-        helperNameElement.style.display="block";
-        customerNameElement.classList.add('is-invalid');
-        customerNameElement.select();
+    if (txtName.value.match(validateCustomerNameRegExp)) {
+        validateCustomerName = true;
+        txtName.style.borderColor = "";
+        helperNameElement.style.display = "none";
+    } else {
+        helperNameElement.style.display = "block";
+        txtName.classList.add('is-invalid');
+        txtName.select();
     }
 
-    if(customerIdElement.value.match(validateCustomerIdRegExp)){
-        validateCustomerId=true;
-        helperIdElement.style.display="none";
-        customerIdElement.style.borderColor="";
-    }else {
-        helperIdElement.style.display="block";
-        customerIdElement.classList.add('is-invalid');
-        customerIdElement.select();
+    if (txtId.value.match(validateCustomerIdRegExp)) {
+        validateCustomerId = true;
+        helperIdElement.style.display = "none";
+        txtId.style.borderColor = "";
+    } else {
+        helperIdElement.style.display = "block";
+        txtId.classList.add('is-invalid');
+        txtId.select();
     }
 
     // console.log(validateCustomerId);
     // console.log(validateCustomerName);
     // console.log(validateCustomerAddress);
 
-    if(validateCustomerId && validateCustomerName && validateCustomerAddress){
+    if (validateCustomerId && validateCustomerName && validateCustomerAddress) {
         return true;
-    }else{
+    } else {
         return false;
     }
 
@@ -198,13 +226,37 @@ function validateAllFields() {
 }
 
 function showOrHideTFoot() {
-    if(tblCustomers.tBodies.item(0).rows.length>0){
-          document.querySelector("#tbl-customers tfoot").classList.add("d-none");
-    }else{
-        document.querySelector("#tbl-customers tfoot").classList.remove( "d-none");
+    if (tblCustomers.tBodies.item(0).rows.length > 0) {
+        document.querySelector("#tbl-customers tfoot").classList.add("d-none");
+    } else {
+        document.querySelector("#tbl-customers tfoot").classList.remove('d-none');
     }
 }
 
 function handleInput() {
     this.classList.remove("is-invalid");
+}
+
+function handleSelection(event) {
+    // console.log(event);
+    clearSelection();
+    selectedRow = event.target.parentElement;
+    selectedRow.classList.add("selected");
+    txtId.value = selectedRow.cells[0].innerText;
+    txtId.disabled = true;
+    txtName.value = selectedRow.cells[1].innerText;
+    txtAddress.value = selectedRow.cells[2].innerText;
+    selectedCustomer=customers.find(function (c) {
+        return c.id == selectedRow.cells[0].innerText;
+    })
+}
+
+function clearSelection(event) {
+    var rows = document.querySelectorAll("#tbl-customers tbody tr");
+    for (let i = 0; i < rows.length; i++) {
+        rows[i].classList.remove("selected");
+    }
+    txtId.disabled = false;
+    selectedRow=null;
+    selectedCustomer=null;
 }

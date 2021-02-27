@@ -46,30 +46,32 @@
                 <hr>
                 <div class="form-group">
                     <button class="btn btn-primary" id="btn-save" type="button">Save</button>
-                    <button class="btn btn-danger" id="btn-clear" type="reset">Clear</button>
+                    <button class="btn btn-danger" id="btn-clear" type="reset" onclick="clearSelection()">Clear</button>
                 </div>
             </form>
         </div>
         <div class="col-12 col-lg-8 d-flex flex-column align-items-center">
-            <table class="table table-hover table-bordered table-striped" id="tbl-customers">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td class="text-center" colspan="4" id="no-record-text">
-                        📌 <small >There are no records to show. Add a new customer.</small>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+<!--            <div id="tbl-wrapper">-->
+                <table class="table table-hover table-bordered table-striped" id="tbl-customers">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td class="text-center" colspan="4" id="no-record-text">
+                            📌 <small>There are no records to show. Add a new customer.</small>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+<!--            </div>-->
             <nav id="pagination-item">
                 <ul class="pagination">
                     <li class="page-item">
